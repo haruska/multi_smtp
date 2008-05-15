@@ -1,0 +1,32 @@
+MultiSmtp
+=========
+
+A simple improvement to ActionMailer that allows the sending of email from multiple accounts across the same domain. For example, it can
+be used to get around the sent message limit imposed by gmail when using apps for your domain.
+
+
+Example
+=======
+
+Adjust your smtp settings in environment.rb to have an array of user names to authenticate against the smtp server.
+
+Rails::Initializer.run do |config|
+
+... snip ...
+
+  config.after_initialize do
+    # For sending mail through gmail
+    ActionMailer::Base.smtp_settings = {
+      :address => "smtp.gmail.com",
+      :port => 587,
+      :domain => "localhost.localdomain",
+      :authentication => :plain,
+      :user_name => (1..15).collect {|n| "robot#{n}@mydomain.com"},
+      :password => "shhhh-common-password"
+    }
+    
+...snip...
+
+end
+
+Copyright (c) 2008 Jason Haruska, released under the MIT license
